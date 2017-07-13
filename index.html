@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Game of life</title>
+    <link rel="stylesheet" href="game.css">
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <div class="container">
+      <button onclick="playGame()">Go on one generation</button>
+      <button onclick="random()">random generator</button>
+    </div>
+
+    <script>
+    function createPlayField() {
+      for ( var x = 1; x <= 10000; x++) {
+        var container = document.getElementById("container")
+        var div = document.createElement("div");
+        div.id = x;
+        div.className = "alive";
+        div.onclick = toggleDone.bind(div);
+        container.appendChild(div);
+      }
+    }
+
+    function toggleDone() {
+      var div = this;
+
+      if (div.className == "alive") {
+        div.className = "dead";
+      } else {
+        div.className = "alive";
+      }
+    }
+
+    function aliveNeigbours(cellId){
+      var aliveNeighbourCells = 0;
+      var neighbours = [cellId-101,cellId-100,cellId-99, cellId-1,cellId+1,cellId+99,cellId+100,cellId+101];
+
+      for ( var i = 0; i <= 7; i++){
+        if (neighbours[i] < 1){
+          neighbours[i] += 10000
+        } else if (neighbours[i] > 10000) {
+          neighbours[i] -= 10000
+        }
+      }
+
+      for (var x = 0; x <= 7 ; x++) {
+        var neighbour = document.getElementById(neighbours[x]);
+
+        if (neighbour.className == "alive") {
+          aliveNeighbourCells +=1;
+        }
+      }
+      return aliveNeighbourCells;
+    }
+
+    function deadOrAlive(aliveNeighbourCells, cell){
+        if (cell.className == "alive" && aliveNeighbourCells <= 1) {
+          return "dead";
+        } else if (cell.className == "alive" && aliveNeighbourCells == 2 || aliveNeighbourCells == 3) {
+          return "alive";
+        } else if (cell.className == "dead" && aliveNeighbourCells == 3) {
+          return "alive";
+        } else if (cell.className == "alive" && aliveNeighbourCells >= 4) {
+          return "dead";
+        } else {
+          return cell.className
+        }
+    }
+
+    function random(){
+      for (var x = 1; x <= 10000; x++){
+        var cell = document.getElementById(x);
+        var number = Math.random() * 10;
+        if (number > 3) {
+          cell.className = "alive";
+        } else {
+          cell.className = "dead";
+        }
+      }
+    }
+
+    function playGame(){
+
+        var statusCells = [];
+        for (var x = 1; x <= 10000; x++){
+          var cell = document.getElementById(x);
+          AliveCells = aliveNeigbours(x);
+
+          status = deadOrAlive(AliveCells, cell)
+          statusCells.push(status);
+        }
+
+        for (var i = 1; i <= 10000; i++){
+          var cell = document.getElementById(i);
+          cell.className = statusCells[i-1];
+        }
+      
+    }
+
+    createPlayField();
+
+
+    </script>
+  </body>
+</html>

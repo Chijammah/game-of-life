@@ -1,0 +1,39 @@
+* { Box-sizing: Border-box }
+
+#container {
+  width: 500px;
+  height: 500px;
+  background-color: green;
+  margin: 0 auto;
+}
+body {
+  background-color: black;
+}
+
+.alive {
+  width: 1%;
+  height: 1%;
+  background-color: white;
+  border: 1px solid black;
+  margin: 0px;
+  padding: 0px;
+  display: inline-block;
+  float:left;
+}
+
+.dead {
+  width: 1%;
+  height: 1%;
+  background-color: black;
+  border: 1px solid black;
+  margin: 0px;
+  padding: 0px;
+  display: inline-block;
+  float:left;
+}
+
+.container {
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+}
